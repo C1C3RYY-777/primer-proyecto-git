@@ -1,13 +1,42 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>My Website</title>
-        <link rel="stylesheet" href="estilos.css">
-        
-    </head>
-    <body class="body">
-        <header class="head">
-            <h1>Welcome to My Website</h1>
-        </header>
-    </body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- 1. Menú Lateral (Sidebar) -->
+        <aside class="sidebar">
+            <h2>Mi Task Manager</h2>
+            <nav>
+                <ul>
+                    <li><a href="#">📋 Todas las tareas</a></li>
+                    <li><a href="#">📁 Proyectos</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 2. Contenido Principal -->
+        <main class="main-content">
+            <header>
+                <h1>Mis Tareas</h1>
+                <button id="btn-nueva-tarea">+ Nueva Tarea</button>
+            </header>
+
+            <!-- Aquí irán las tarjetas de tareas -->
+            <section class="task-list">
+                <div class="task-card">
+                    <h3>Comprar leche</h3>
+                    <p>Ir al supermercado por la tarde</p>
+                    <span class="status pendiente">Pendiente</span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
 </html>
