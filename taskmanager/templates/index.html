@@ -3,51 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="estilos.css">
+    <title>TaskManager</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
 </head>
 <body>
-
-    <div class="app-container">
-        <!-- 1. Menú Lateral (Sidebar) -->
+    <div class="dashboard-shell">
         <aside class="sidebar">
-            <h2>Mi Task Manager</h2>
-            <nav>
-                <ul>
-                    <li><a href="#">📋 Todas las tareas</a></li>
-                    <li><a href="#">📁 Proyectos</a></li>
-                </ul>
+            <div class="brand">
+                <div class="brand-mark">T</div>
+                <div>
+                    <h2>TaskManager</h2>
+                </div>
+            </div>
+
+            <nav class="nav-menu" aria-label="Menú principal">
+                <button class="nav-item active" data-view="overview">
+                    <span>Resumen</span>
+                </button>
+                <button class="nav-item" data-view="tasks">
+                    <span>Tareas</span>
+                </button>
+                <button class="nav-item" data-view="projects">
+                    <span>Proyectos</span>
+                </button>
+                <button class="nav-item" data-view="notifications">
+                    <span>Notificaciones</span>
+                </button>
+                <button class="nav-item" data-view="profile">
+                    <span>Perfil</span>
+                </button>
             </nav>
+
+            <div class="sidebar-card">
+                <p>Meta del día</p>
+                <strong>5 tareas</strong>
+                <span>3 completadas</span>
+            </div>
         </aside>
 
-        <!-- 2. Contenido Principal -->
-        <main class="main-content">
-        <!-- Formulario para crear nuevas tareas -->
-            <form id="form-tarea" class="task-form">
-                <input 
-                    type="text" 
-                    id="input-titulo" 
-                    placeholder=" título de la tarea..." 
-                    required
-                >
-                <button type="submit" id="btn-guardar">Agregar Tarea</button>
-            </form>
-            <header>
-                <h1>Mis Tareas</h1>
-                <button id="btn-nueva-tarea">+ Nueva Tarea</button>
+        <main class="main-panel">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Panel</p>
+                    <h1>Dashboard</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="ghost-btn">Buscar</button>
+                    <button id="btn-nueva-tarea" class="primary-btn">Nueva tarea</button>
+                </div>
             </header>
 
-            <!-- Aquí irán las tarjetas de tareas -->
-            <section class="task-list">
-                <div class="task-card">
-                    <h3>Comprar leche</h3>
-                    <p>Ir al supermercado por la tarde</p>
-                    <span class="status pendiente">Pendiente</span>
+            <section class="view active" data-view-panel="overview">
+                <div class="stats-grid">
+                    <article class="stat-card purple">
+                        <span>Total</span>
+                        <strong id="stat-total">0</strong>
+                        <small>Tareas</small>
+                    </article>
+                    <article class="stat-card">
+                        <span>Completadas</span>
+                        <strong id="stat-completadas">0</strong>
+                        <small>Hoy</small>
+                    </article>
+                    <article class="stat-card">
+                        <span>Proyectos</span>
+                        <strong id="stat-proyectos">0</strong>
+                        <small>Activos</small>
+                    </article>
+                    <article class="stat-card">
+                        <span>Notificaciones</span>
+                        <strong id="stat-notificaciones">0</strong>
+                        <small>Nuevas</small>
+                    </article>
+                </div>
+
+                <div class="overview-row">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Actividad reciente</h3>
+                            <span class="pill neutral">Hoy</span>
+                        </div>
+
+                        <div class="mini-list">
+                            <div class="mini-item">
+                                <span class="dot purple"></span>
+                                <div>
+                                    <strong>Revisión de diseño</strong>
+                                    <small>Hace 2 horas</small>
+                                </div>
+                            </div>
+                            <div class="mini-item">
+                                <span class="dot green"></span>
+                                <div>
+                                    <strong>Entrega final</strong>
+                                    <small>Hace 5 horas</small>
+                                </div>
+                            </div>
+                            <div class="mini-item">
+                                <span class="dot orange"></span>
+                                <div>
+                                    <strong>Reunión con equipo</strong>
+                                    <small>Manana</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Resumen</h3>
+                            <span class="pill purple">Live</span>
+                        </div>
+
+                        <div class="progress-block">
+                            <div class="progress-row">
+                                <span>Progreso</span>
+                                <strong>72%</strong>
+                            </div>
+                            <div class="progress-bar">
+                                <span style="width: 72%"></span>
+                            </div>
+                        </div>
+
+                        <div class="summary-box">
+                            <div>
+                                <span>Rendimiento</span>
+                                <strong>Muy bien</strong>
+                            </div>
+                            <div>
+                                <span>Tiempo</span>
+                                <strong>4h 30m</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" data-view-panel="tasks">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Tareas</h3>
+                        <span class="pill purple">Lista</span>
+                    </div>
+
+                    <form id="form-tarea" class="task-form">
+                        <input
+                            id="input-titulo"
+                            type="text"
+                            placeholder="Título de la tarea"
+                            required
+                            maxlength="200"
+                        >
+                        <textarea
+                            id="input-descripcion"
+                            rows="1"
+                            placeholder="Descripción (opcional)"
+                        ></textarea>
+                        <button type="submit" class="primary-btn">Agregar</button>
+                    </form>
+
+                    <div id="lista-tareas" class="task-list" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <section class="view" data-view-panel="projects">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Proyectos</h3>
+                        <span class="pill neutral">Activos</span>
+                    </div>
+
+                    <div class="project-grid">
+                        <article class="project-card">
+                            <div class="project-top">
+                                <span class="project-badge purple">UX</span>
+                                <span class="project-state">En curso</span>
+                            </div>
+                            <h4>Rediseño App</h4>
+                            <p>Actualización del flujo principal y nuevas tareas.</p>
+                            <div class="progress-bar small">
+                                <span style="width: 68%"></span>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <div class="project-top">
+                                <span class="project-badge green">WEB</span>
+                                <span class="project-state">En curso</span>
+                            </div>
+                            <h4>Landing TaskManager</h4>
+                            <p>Diseño y ajustes de navegación para mobile.</p>
+                            <div class="progress-bar small">
+                                <span style="width: 52%"></span>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <div class="project-top">
+                                <span class="project-badge orange">MKT</span>
+                                <span class="project-state">Pendiente</span>
+                            </div>
+                            <h4>Estrategia social</h4>
+                            <p>Calendarización y contenido para la campaña.</p>
+                            <div class="progress-bar small">
+                                <span style="width: 30%"></span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" data-view-panel="notifications">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Notificaciones</h3>
+                        <span class="pill purple">Nuevas</span>
+                    </div>
+
+                    <div class="notify-list">
+                        <div class="notify-item">
+                            <span class="notify-icon purple"></span>
+                            <div>
+                                <strong>Equipo asignado</strong>
+                                <p>Nuevo miembro fue añadido al proyecto UX.</p>
+                            </div>
+                            <small>2 min</small>
+                        </div>
+
+                        <div class="notify-item">
+                            <span class="notify-icon green"></span>
+                            <div>
+                                <strong>Entrega aprobada</strong>
+                                <p>La tarea de revisión fue marcada como completada.</p>
+                            </div>
+                            <small>1h</small>
+                        </div>
+
+                        <div class="notify-item">
+                            <span class="notify-icon orange"></span>
+                            <div>
+                                <strong>Recordatorio</strong>
+                                <p>Te quedan 2 tareas pendientes hoy.</p>
+                            </div>
+                            <small>3h</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" data-view-panel="profile">
+                <div class="panel profile-panel">
+                    <div class="panel-header">
+                        <h3>Perfil</h3>
+                        <span class="pill neutral">Cuenta</span>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="avatar">AD</div>
+                        <div class="profile-info">
+                            <h4>Ana Díaz</h4>
+                            <p>Product Designer</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-details">
+                        <div>
+                            <span>Email</span>
+                            <strong>ana@taskmanager.com</strong>
+                        </div>
+                        <div>
+                            <span>Rol</span>
+                            <strong>Administrador</strong>
+                        </div>
+                        <div>
+                            <span>Zona</span>
+                            <strong>Madrid</strong>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
     </div>
-<!-- Vinculamos nuestro archivo de JavaScript -->
-    <script src="script.js"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

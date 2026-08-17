@@ -2,10 +2,7 @@
 from datetime import datetime
 
 # Importamos SQLAlchemy para crear el modelo.
-try:
-    from flask_sqlalchemy import SQLAlchemy
-except ImportError as e:
-    raise ImportError("flask_sqlalchemy no está instalado. Ejecuta: pip install flask-sqlalchemy") from e
+from flask_sqlalchemy import SQLAlchemy
 
 # Creamos la instancia de SQLAlchemy.
 db = SQLAlchemy()
