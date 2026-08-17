@@ -22,6 +22,16 @@
 
         <!-- 2. Contenido Principal -->
         <main class="main-content">
+        <!-- Formulario para crear nuevas tareas -->
+            <form id="form-tarea" class="task-form">
+                <input 
+                    type="text" 
+                    id="input-titulo" 
+                    placeholder=" título de la tarea..." 
+                    required
+                >
+                <button type="submit" id="btn-guardar">Agregar Tarea</button>
+            </form>
             <header>
                 <h1>Mis Tareas</h1>
                 <button id="btn-nueva-tarea">+ Nueva Tarea</button>
@@ -37,6 +47,7 @@
             </section>
         </main>
     </div>
-
+<!-- Vinculamos nuestro archivo de JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
