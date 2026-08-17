@@ -123,3 +123,26 @@ header {
 .task-form button:hover {
     background-color: #059669;
 }
+
+.delete-button {
+    background-color: #ef4444; /* Rojo advertencia */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    display: block;
+}
+
+.delete-button:hover {
+    background-color: #dc2626;
+}
+
+/* Estilo para la tarea completada */
+.status.completada {
+    background-color: #d1fae5; /* Verde claro */
+    color: #047857;            /* Verde oscuro */
+    cursor: pointer;
+}
