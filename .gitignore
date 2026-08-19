@@ -1,6 +1,6 @@
 # Entorno virtual
 .venv/
-
+KEY=891276387612927
 # Caché de Python
 __pycache__/
 *.py[cod]
