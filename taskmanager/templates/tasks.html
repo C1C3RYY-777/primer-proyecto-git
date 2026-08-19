@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Tareas | TaskManager{% endblock %}
+
+{% block content %}
+<section class="px-6 py-12 md:px-12 lg:py-20">
+    <div class="mx-auto max-w-6xl">
+
+        <div class="mb-16 max-w-3xl animate-fade-up">
+            <p class="mb-5 text-xs uppercase tracking-[0.3em] text-black/40">
+                Organización personal
+            </p>
+
+            <h1 class="text-5xl font-semibold leading-none tracking-[-0.06em] md:text-7xl">
+                Haz espacio para lo importante.
+            </h1>
+
+            <p class="mt-8 max-w-xl text-lg leading-relaxed text-black/55">
+                Administra tus tareas, prioridades y recordatorios desde un solo lugar.
+            </p>
+        </div>
+
+        <div class="mb-8 flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold tracking-tight">Mis tareas</h2>
+                <p class="mt-2 text-sm text-black/45">Organiza tu trabajo diario.</p>
+            </div>
+
+            <button id="btn-nueva-tarea"
+                    class="rounded-full bg-black px-5 py-3 text-sm font-medium text-white transition hover:bg-accent hover:scale-105">
+                Nueva tarea
+            </button>
+        </div>
+
+        <!-- Las tareas se generarán dinámicamente con JavaScript. -->
+        <div id="lista-tareas"
+             class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+{% endblock %}

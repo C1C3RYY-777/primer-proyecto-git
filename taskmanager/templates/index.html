@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskManager</title>
+
+    <!-- TailwindCSS para el diseño visual -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuración de colores y animaciones -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: "#111111",
+                        soft: "#f7f7f5"
+                    },
+                    animation: {
+                        "fade-up": "fadeUp 0.7s ease-out both",
+                        "float-slow": "floatSlow 5s ease-in-out infinite"
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            "0%": {
+                                opacity: "0",
+                                transform: "translateY(24px)"
+                            },
+                            "100%": {
+                                opacity: "1",
+                                transform: "translateY(0)"
+                            }
+                        },
+                        floatSlow: {
+                            "0%, 100%": {
+                                transform: "translateY(0)"
+                            },
+                            "50%": {
+                                transform: "translateY(-8px)"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Conservamos únicamente estilos funcionales existentes -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body class="bg-white text-ink antialiased">
+    <div class="min-h-screen bg-white">
+
+        <aside class="fixed inset-y-0 left-0 z-20 hidden w-64 border-r border-black/10 bg-white px-6 py-8 lg:block">
+            <div class="mb-16 flex items-center gap-3">
+                <div class="grid h-10 w-10 place-items-center rounded-full bg-black text-lg font-bold text-white">
+                    T
+                </div>
+
+                <h2 class="text-lg font-semibold tracking-tight">
+                    TaskManager
+                </h2>
+            </div>
+
+            <nav class="nav-menu flex flex-col gap-2" aria-label="Menú principal">
+                <button
+                    class="nav-item active rounded-full px-4 py-3 text-left text-sm font-medium text-black transition hover:bg-black hover:text-white"
+                    data-view="overview">
+                    Resumen
+                </button>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="tasks">
+                    Tareas
+                </button>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="projects">
+                    Proyectos
+                </button>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="notifications">
+                    Notificaciones
+                </button>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="profile">
+                    Perfil
+                </button>
+            </nav>
+        </aside>
+
+        <main class="main-panel px-6 py-8 lg:ml-64 lg:px-16 lg:py-12">
+            <header class="topbar mx-auto flex max-w-6xl items-center justify-between">
+                <div>
+                    <p class="mb-3 text-xs uppercase tracking-[0.3em] text-black/40">
+                        Workspace
+                    </p>
+
+                    <h1 class="text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
+                        Dashboard<span class="text-black/30">.</span>
+                    </h1>
+                </div>
+
+                <div class="topbar-actions flex gap-3">
+                    <button class="ghost-btn rounded-full border border-black px-5 py-3 text-sm transition hover:bg-black hover:text-white">
+                        Buscar
+                    </button>
+
+                    <button
+                        id="btn-nueva-tarea"
+                        class="primary-btn rounded-full bg-black px-5 py-3 text-sm text-white transition hover:-translate-y-1 hover:bg-black/80">
+                        Nueva tarea
+                    </button>
+                </div>
+            </header>
+
+            <section
+                class="view active mx-auto mt-24 max-w-6xl animate-fade-up"
+                data-view-panel="overview">
+
+                <div class="mb-20 max-w-3xl">
+                    <p class="mb-6 text-sm text-black/45">
+                        Organiza tu trabajo. Mantén el foco.
+                    </p>
+
+                    <h2 class="text-5xl font-semibold leading-[0.95] tracking-[-0.07em] sm:text-8xl">
+                        Haz menos.
+                        <br>
+                        <span class="text-black/35">Consigue más.</span>
+                    </h2>
+                </div>
+
+                <div class="stats-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <article class="stat-card rounded-3xl border border-black/10 bg-black p-6 text-white transition hover:-translate-y-2">
+                        <span class="text-sm text-white/55">Total</span>
+                        <strong id="stat-total" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-white/50">Tareas</small>
+                    </article>
+
+                    <article class="stat-card rounded-3xl border border-black/10 bg-soft p-6 transition hover:-translate-y-2">
+                        <span class="text-sm text-black/45">Completadas</span>
+                        <strong id="stat-completadas" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-black/45">Hoy</small>
+                    </article>
+
+                    <article class="stat-card rounded-3xl border border-black/10 bg-soft p-6 transition hover:-translate-y-2">
+                        <span class="text-sm text-black/45">Proyectos</span>
+                        <strong id="stat-proyectos" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-black/45">Activos</small>
+                    </article>
+
+                    <article class="stat-card rounded-3xl border border-black/10 bg-soft p-6 transition hover:-translate-y-2">
+                        <span class="text-sm text-black/45">Avisos</span>
+                        <strong id="stat-notificaciones" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-black/45">Nuevos</small>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript funcional existente -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

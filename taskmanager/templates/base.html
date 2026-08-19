@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}TaskManager{% endblock %}</title>
+
+    <!-- Tailwind permite construir el diseño con clases utilitarias. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuración visual personalizada de Tailwind. -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        accent: "#8b5cf6",
+                        ink: "#0a0a0a"
+                    },
+                    animation: {
+                        "fade-up": "fadeUp 0.7s ease-out both",
+                        "float-slow": "floatSlow 5s ease-in-out infinite"
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            "0%": {
+                                opacity: "0",
+                                transform: "translateY(20px)"
+                            },
+                            "100%": {
+                                opacity: "1",
+                                transform: "translateY(0)"
+                            }
+                        },
+                        floatSlow: {
+                            "0%, 100%": {
+                                transform: "translateY(0)"
+                            },
+                            "50%": {
+                                transform: "translateY(-8px)"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Estilos pequeños que Tailwind no reemplaza. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+
+<body class="min-h-screen bg-white text-black antialiased">
+    <div class="flex min-h-screen">
+
+        <!-- Menú lateral compartido por todas las páginas. -->
+        <aside class="hidden w-64 border-r border-black/10 bg-black px-6 py-8 text-white md:block">
+            <a href="{{ url_for('dashboard') }}" class="mb-14 block">
+                <span class="text-sm uppercase tracking-[0.3em] text-white/50">
+                    TaskManager
+                </span>
+
+                <h1 class="mt-3 text-2xl font-semibold tracking-tight">
+                    Work clearly.
+                </h1>
+            </a>
+
+            <nav class="space-y-2">
+                <a href="{{ url_for('dashboard') }}"
+                   class="block rounded-full px-4 py-3 text-sm text-white/60 transition hover:bg-white hover:text-black">
+                    Resumen
+                </a>
+
+                <a href="{{ url_for('tasks_page') }}"
+                   class="block rounded-full px-4 py-3 text-sm text-white/60 transition hover:bg-white hover:text-black">
+                    Tareas
+                </a>
+
+                <a href="{{ url_for('projects_page') }}"
+                   class="block rounded-full px-4 py-3 text-sm text-white/60 transition hover:bg-white hover:text-black">
+                    Proyectos
+                </a>
+
+                <a href="{{ url_for('notifications_page') }}"
+                   class="block rounded-full px-4 py-3 text-sm text-white/60 transition hover:bg-white hover:text-black">
+                    Notificaciones
+                </a>
+
+                <a href="{{ url_for('profile_page') }}"
+                   class="block rounded-full px-4 py-3 text-sm text-white/60 transition hover:bg-white hover:text-black">
+                    Perfil
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido particular de cada página. -->
+        <main class="flex-1">
+            <header class="flex items-center justify-between border-b border-black/10 px-6 py-6 md:px-12">
+                <span class="text-xs uppercase tracking-[0.25em] text-black/40">
+                    TaskManager
+                </span>
+
+                <a href="{{ url_for('profile_page') }}"
+                   class="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-medium text-white transition hover:scale-105">
+                    AD
+                </a>
+            </header>
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
