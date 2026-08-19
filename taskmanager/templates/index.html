@@ -3,290 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>TaskManager</title>
 
+    <!-- TailwindCSS para el diseño visual -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuración de colores y animaciones -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: "#111111",
+                        soft: "#f7f7f5"
+                    },
+                    animation: {
+                        "fade-up": "fadeUp 0.7s ease-out both",
+                        "float-slow": "floatSlow 5s ease-in-out infinite"
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            "0%": {
+                                opacity: "0",
+                                transform: "translateY(24px)"
+                            },
+                            "100%": {
+                                opacity: "1",
+                                transform: "translateY(0)"
+                            }
+                        },
+                        floatSlow: {
+                            "0%, 100%": {
+                                transform: "translateY(0)"
+                            },
+                            "50%": {
+                                transform: "translateY(-8px)"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Conservamos únicamente estilos funcionales existentes -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
 </head>
-<body>
-    <div class="dashboard-shell">
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-mark">T</div>
-                <div>
-                    <h2>TaskManager</h2>
+<body class="bg-white text-ink antialiased">
+    <div class="min-h-screen bg-white">
+
+        <aside class="fixed inset-y-0 left-0 z-20 hidden w-64 border-r border-black/10 bg-white px-6 py-8 lg:block">
+            <div class="mb-16 flex items-center gap-3">
+                <div class="grid h-10 w-10 place-items-center rounded-full bg-black text-lg font-bold text-white">
+                    T
                 </div>
+
+                <h2 class="text-lg font-semibold tracking-tight">
+                    TaskManager
+                </h2>
             </div>
 
-            <nav class="nav-menu" aria-label="Menú principal">
-                <button class="nav-item active" data-view="overview">
-                    <span>Resumen</span>
+            <nav class="nav-menu flex flex-col gap-2" aria-label="Menú principal">
+                <button
+                    class="nav-item active rounded-full px-4 py-3 text-left text-sm font-medium text-black transition hover:bg-black hover:text-white"
+                    data-view="overview">
+                    Resumen
                 </button>
-                <button class="nav-item" data-view="tasks">
-                    <span>Tareas</span>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="tasks">
+                    Tareas
                 </button>
-                <button class="nav-item" data-view="projects">
-                    <span>Proyectos</span>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="projects">
+                    Proyectos
                 </button>
-                <button class="nav-item" data-view="notifications">
-                    <span>Notificaciones</span>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="notifications">
+                    Notificaciones
                 </button>
-                <button class="nav-item" data-view="profile">
-                    <span>Perfil</span>
+
+                <button
+                    class="nav-item rounded-full px-4 py-3 text-left text-sm font-medium text-black/55 transition hover:bg-black hover:text-white"
+                    data-view="profile">
+                    Perfil
                 </button>
             </nav>
-
-            <div class="sidebar-card">
-                <p>Meta del día</p>
-                <strong>5 tareas</strong>
-                <span>3 completadas</span>
-            </div>
         </aside>
 
-        <main class="main-panel">
-            <header class="topbar">
+        <main class="main-panel px-6 py-8 lg:ml-64 lg:px-16 lg:py-12">
+            <header class="topbar mx-auto flex max-w-6xl items-center justify-between">
                 <div>
-                    <p class="eyebrow">Panel</p>
-                    <h1>Dashboard</h1>
+                    <p class="mb-3 text-xs uppercase tracking-[0.3em] text-black/40">
+                        Workspace
+                    </p>
+
+                    <h1 class="text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
+                        Dashboard<span class="text-black/30">.</span>
+                    </h1>
                 </div>
 
-                <div class="topbar-actions">
-                    <button class="ghost-btn">Buscar</button>
-                    <button id="btn-nueva-tarea" class="primary-btn">Nueva tarea</button>
+                <div class="topbar-actions flex gap-3">
+                    <button class="ghost-btn rounded-full border border-black px-5 py-3 text-sm transition hover:bg-black hover:text-white">
+                        Buscar
+                    </button>
+
+                    <button
+                        id="btn-nueva-tarea"
+                        class="primary-btn rounded-full bg-black px-5 py-3 text-sm text-white transition hover:-translate-y-1 hover:bg-black/80">
+                        Nueva tarea
+                    </button>
                 </div>
             </header>
 
-            <section class="view active" data-view-panel="overview">
-                <div class="stats-grid">
-                    <article class="stat-card purple">
-                        <span>Total</span>
-                        <strong id="stat-total">0</strong>
-                        <small>Tareas</small>
+            <section
+                class="view active mx-auto mt-24 max-w-6xl animate-fade-up"
+                data-view-panel="overview">
+
+                <div class="mb-20 max-w-3xl">
+                    <p class="mb-6 text-sm text-black/45">
+                        Organiza tu trabajo. Mantén el foco.
+                    </p>
+
+                    <h2 class="text-5xl font-semibold leading-[0.95] tracking-[-0.07em] sm:text-8xl">
+                        Haz menos.
+                        <br>
+                        <span class="text-black/35">Consigue más.</span>
+                    </h2>
+                </div>
+
+                <div class="stats-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <article class="stat-card rounded-3xl border border-black/10 bg-black p-6 text-white transition hover:-translate-y-2">
+                        <span class="text-sm text-white/55">Total</span>
+                        <strong id="stat-total" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-white/50">Tareas</small>
                     </article>
-                    <article class="stat-card">
-                        <span>Completadas</span>
-                        <strong id="stat-completadas">0</strong>
-                        <small>Hoy</small>
+
+                    <article class="stat-card rounded-3xl border border-black/10 bg-soft p-6 transition hover:-translate-y-2">
+                        <span class="text-sm text-black/45">Completadas</span>
+                        <strong id="stat-completadas" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-black/45">Hoy</small>
                     </article>
-                    <article class="stat-card">
-                        <span>Proyectos</span>
-                        <strong id="stat-proyectos">0</strong>
-                        <small>Activos</small>
+
+                    <article class="stat-card rounded-3xl border border-black/10 bg-soft p-6 transition hover:-translate-y-2">
+                        <span class="text-sm text-black/45">Proyectos</span>
+                        <strong id="stat-proyectos" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-black/45">Activos</small>
                     </article>
-                    <article class="stat-card">
-                        <span>Notificaciones</span>
-                        <strong id="stat-notificaciones">0</strong>
-                        <small>Nuevas</small>
+
+                    <article class="stat-card rounded-3xl border border-black/10 bg-soft p-6 transition hover:-translate-y-2">
+                        <span class="text-sm text-black/45">Avisos</span>
+                        <strong id="stat-notificaciones" class="mt-8 block text-5xl font-semibold">0</strong>
+                        <small class="mt-2 block text-black/45">Nuevos</small>
                     </article>
-                </div>
-
-                <div class="overview-row">
-                    <div class="panel">
-                        <div class="panel-header">
-                            <h3>Actividad reciente</h3>
-                            <span class="pill neutral">Hoy</span>
-                        </div>
-
-                        <div class="mini-list">
-                            <div class="mini-item">
-                                <span class="dot purple"></span>
-                                <div>
-                                    <strong>Revisión de diseño</strong>
-                                    <small>Hace 2 horas</small>
-                                </div>
-                            </div>
-                            <div class="mini-item">
-                                <span class="dot green"></span>
-                                <div>
-                                    <strong>Entrega final</strong>
-                                    <small>Hace 5 horas</small>
-                                </div>
-                            </div>
-                            <div class="mini-item">
-                                <span class="dot orange"></span>
-                                <div>
-                                    <strong>Reunión con equipo</strong>
-                                    <small>Manana</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <div class="panel-header">
-                            <h3>Resumen</h3>
-                            <span class="pill purple">Live</span>
-                        </div>
-
-                        <div class="progress-block">
-                            <div class="progress-row">
-                                <span>Progreso</span>
-                                <strong>72%</strong>
-                            </div>
-                            <div class="progress-bar">
-                                <span style="width: 72%"></span>
-                            </div>
-                        </div>
-
-                        <div class="summary-box">
-                            <div>
-                                <span>Rendimiento</span>
-                                <strong>Muy bien</strong>
-                            </div>
-                            <div>
-                                <span>Tiempo</span>
-                                <strong>4h 30m</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="view" data-view-panel="tasks">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h3>Tareas</h3>
-                        <span class="pill purple">Lista</span>
-                    </div>
-
-                    <form id="form-tarea" class="task-form">
-                        <input
-                            id="input-titulo"
-                            type="text"
-                            placeholder="Título de la tarea"
-                            required
-                            maxlength="200"
-                        >
-                        <textarea
-                            id="input-descripcion"
-                            rows="1"
-                            placeholder="Descripción (opcional)"
-                        ></textarea>
-                        <button type="submit" class="primary-btn">Agregar</button>
-                    </form>
-
-                    <div id="lista-tareas" class="task-list" aria-live="polite"></div>
-                </div>
-            </section>
-
-            <section class="view" data-view-panel="projects">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h3>Proyectos</h3>
-                        <span class="pill neutral">Activos</span>
-                    </div>
-
-                    <div class="project-grid">
-                        <article class="project-card">
-                            <div class="project-top">
-                                <span class="project-badge purple">UX</span>
-                                <span class="project-state">En curso</span>
-                            </div>
-                            <h4>Rediseño App</h4>
-                            <p>Actualización del flujo principal y nuevas tareas.</p>
-                            <div class="progress-bar small">
-                                <span style="width: 68%"></span>
-                            </div>
-                        </article>
-
-                        <article class="project-card">
-                            <div class="project-top">
-                                <span class="project-badge green">WEB</span>
-                                <span class="project-state">En curso</span>
-                            </div>
-                            <h4>Landing TaskManager</h4>
-                            <p>Diseño y ajustes de navegación para mobile.</p>
-                            <div class="progress-bar small">
-                                <span style="width: 52%"></span>
-                            </div>
-                        </article>
-
-                        <article class="project-card">
-                            <div class="project-top">
-                                <span class="project-badge orange">MKT</span>
-                                <span class="project-state">Pendiente</span>
-                            </div>
-                            <h4>Estrategia social</h4>
-                            <p>Calendarización y contenido para la campaña.</p>
-                            <div class="progress-bar small">
-                                <span style="width: 30%"></span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="view" data-view-panel="notifications">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h3>Notificaciones</h3>
-                        <span class="pill purple">Nuevas</span>
-                    </div>
-
-                    <div class="notify-list">
-                        <div class="notify-item">
-                            <span class="notify-icon purple"></span>
-                            <div>
-                                <strong>Equipo asignado</strong>
-                                <p>Nuevo miembro fue añadido al proyecto UX.</p>
-                            </div>
-                            <small>2 min</small>
-                        </div>
-
-                        <div class="notify-item">
-                            <span class="notify-icon green"></span>
-                            <div>
-                                <strong>Entrega aprobada</strong>
-                                <p>La tarea de revisión fue marcada como completada.</p>
-                            </div>
-                            <small>1h</small>
-                        </div>
-
-                        <div class="notify-item">
-                            <span class="notify-icon orange"></span>
-                            <div>
-                                <strong>Recordatorio</strong>
-                                <p>Te quedan 2 tareas pendientes hoy.</p>
-                            </div>
-                            <small>3h</small>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="view" data-view-panel="profile">
-                <div class="panel profile-panel">
-                    <div class="panel-header">
-                        <h3>Perfil</h3>
-                        <span class="pill neutral">Cuenta</span>
-                    </div>
-
-                    <div class="profile-card">
-                        <div class="avatar">AD</div>
-                        <div class="profile-info">
-                            <h4>Ana Díaz</h4>
-                            <p>Product Designer</p>
-                        </div>
-                    </div>
-
-                    <div class="profile-details">
-                        <div>
-                            <span>Email</span>
-                            <strong>ana@taskmanager.com</strong>
-                        </div>
-                        <div>
-                            <span>Rol</span>
-                            <strong>Administrador</strong>
-                        </div>
-                        <div>
-                            <span>Zona</span>
-                            <strong>Madrid</strong>
-                        </div>
-                    </div>
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- JavaScript funcional existente -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

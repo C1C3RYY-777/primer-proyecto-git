@@ -451,6 +451,11 @@ button, input, textarea {
     color: var(--green);
 }
 
+.task-card.completada h3 {
+    text-decoration: line-through;
+    opacity: 0.55;
+}
+
 .task-actions {
     display: flex;
     justify-content: space-between;
@@ -588,6 +593,10 @@ button, input, textarea {
 
 .profile-details strong {
     color: white;
+}
+
+.modal.hidden {
+    display: none;
 }
 
 @media (max-width: 980px) {
