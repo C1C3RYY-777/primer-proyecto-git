@@ -32,13 +32,21 @@
             </button>
         </div>
 
-        <form id="form-tarea" class="mb-10 grid gap-4 md:grid-cols-[1fr_1fr_auto]">
-            <input id="input-titulo" name="title" required maxlength="200"
-                   placeholder="Título de la tarea" class="rounded-xl border border-black/15 px-4 py-3">
-            <input id="input-descripcion" name="description"
-                   placeholder="Descripción (opcional)" class="rounded-xl border border-black/15 px-4 py-3">
-            <button type="submit" class="rounded-xl bg-black px-5 py-3 text-sm font-medium text-white">
-                Añadir
+        <form id="form-tarea" class="mb-8 grid gap-4 rounded-3xl border border-black/10 p-6 md:grid-cols-2">
+            <label class="text-sm font-medium">
+                Título
+                <input id="input-titulo" name="title" required maxlength="200"
+                       class="mt-2 w-full rounded-xl border border-black/15 px-4 py-3"
+                       placeholder="¿Qué necesitas hacer?">
+            </label>
+            <label class="text-sm font-medium">
+                Descripción
+                <textarea id="input-descripcion" name="description" rows="1"
+                          class="mt-2 w-full rounded-xl border border-black/15 px-4 py-3"
+                          placeholder="Detalles opcionales"></textarea>
+            </label>
+            <button type="submit" class="rounded-full bg-black px-5 py-3 text-sm font-medium text-white md:col-span-2 md:justify-self-start">
+                Guardar tarea
             </button>
         </form>
 
