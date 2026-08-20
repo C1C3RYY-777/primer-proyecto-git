@@ -1,7 +1,7 @@
 {
   "name": "primer-proyecto-git",
   "version": "1.0.0",
-  "description": "TaskManager migrado a Next.js con Prisma y MySQL",
+  "description": "TaskManager migrado a Next.js con Prisma y PostgreSQL",
   "private": true,
   "scripts": {
     "dev": "next dev",
