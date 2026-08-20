@@ -5,6 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: { default: "TaskManager", template: "%s | TaskManager" },
   description: "Organiza tu trabajo y mantén el foco.",
+  icons: { icon: "/favicon.svg" },
 };
 
 const navigation = [
@@ -17,7 +18,7 @@ const navigation = [
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body>
         <div className="min-h-screen lg:flex">
           <aside className="hidden w-64 shrink-0 border-r border-black/10 bg-black px-6 py-8 text-white lg:block">
