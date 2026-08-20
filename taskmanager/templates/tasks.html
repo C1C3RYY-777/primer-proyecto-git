@@ -32,6 +32,16 @@
             </button>
         </div>
 
+        <form id="form-tarea" class="mb-10 grid gap-4 md:grid-cols-[1fr_1fr_auto]">
+            <input id="input-titulo" name="title" required maxlength="200"
+                   placeholder="Título de la tarea" class="rounded-xl border border-black/15 px-4 py-3">
+            <input id="input-descripcion" name="description"
+                   placeholder="Descripción (opcional)" class="rounded-xl border border-black/15 px-4 py-3">
+            <button type="submit" class="rounded-xl bg-black px-5 py-3 text-sm font-medium text-white">
+                Añadir
+            </button>
+        </form>
+
         <!-- Las tareas se generarán dinámicamente con JavaScript. -->
         <div id="lista-tareas"
              class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -41,5 +51,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,2 @@
+export default function ProjectsPage() { return <Placeholder title="Proyectos" description="Esta vista forma parte de la navegación actual de TaskManager." />; }
+function Placeholder({ title, description }: { title: string; description: string }) { return <section className="px-6 py-16 md:px-12"><div className="mx-auto max-w-4xl"><p className="text-xs uppercase tracking-[0.3em] text-black/40">TaskManager</p><h1 className="mt-6 text-6xl font-semibold tracking-tight">{title}</h1><p className="mt-6 text-lg text-black/55">{description}</p></div></section>; }

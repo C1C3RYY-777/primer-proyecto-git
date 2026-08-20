@@ -1,6 +1,6 @@
 # Entorno virtual
 .venv/
-KEY=891276387612927
+
 # Caché de Python
 __pycache__/
 *.py[cod]
@@ -9,6 +9,7 @@ __pycache__/
 .env
 .env.*
 !.env.example
+.env.local
 
 # Base de datos local
 instance/*.db
@@ -20,7 +21,13 @@ instance/*.sqlite3
 
 # Configuración de VS Code
 .vscode/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
 
 # Sistema operativo
 .DS_Store
 Thumbs.db
+node_modules

@@ -1,0 +1,1 @@
+export default function ProfilePage() { return <section className="px-6 py-16 md:px-12"><div className="mx-auto max-w-4xl"><p className="text-xs uppercase tracking-[0.3em] text-black/40">TaskManager</p><h1 className="mt-6 text-6xl font-semibold tracking-tight">Perfil</h1><p className="mt-6 text-lg text-black/55">Perfil local de trabajo.</p></div></section>; }

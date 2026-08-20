@@ -1,5 +1,5 @@
 # Importamos datetime para guardar la fecha de creación.
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Importamos SQLAlchemy para crear el modelo.
 from flask_sqlalchemy import SQLAlchemy
@@ -24,8 +24,21 @@ class Task(db.Model):
     is_completed = db.Column(db.Boolean, default=False, nullable=False)
 
     # Fecha de creación
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
 
     # Representación útil para depurar
     def __repr__(self):
         return f"<Task {self.id}: {self.title} (Completada: {self.is_completed})>"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description or "",
+            "is_completed": self.is_completed,
+            "created_at": self.created_at.isoformat(),
+        }
